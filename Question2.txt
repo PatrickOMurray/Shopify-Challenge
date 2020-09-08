@@ -1,0 +1,41 @@
+Question 2:
+
+a. How many orders were shipped by Speedy Express in total?
+
+Answer: 54
+
+Query:
+
+SELECT Shippers.ShipperName, COUNT(Shippers.ShipperName)
+FROM Orders
+JOIN Shippers ON  Orders.ShipperID=Shippers.ShipperID
+WHERE Shippers.ShipperName="Speedy Express";
+
+b. What is the last name of the employee with the most orders?
+
+Answer: Peacock
+
+Query:
+
+SELECT Employees.LastName, COUNT(Orders.EmployeeID)
+FROM Orders
+JOIN Employees ON Orders.EmployeeID = Employees.EmployeeID
+GROUP BY Orders.EmployeeID, Employees.LastName
+ORDER BY COUNT(Orders.EmployeeID) DESC
+LIMIT 1;
+
+c. What product was ordered the most by customers in Germany?
+
+Answer: Boston Crab Meat at 160 units
+
+Query:
+
+SELECT Products.ProductName, SUM(Quantity)
+FROM Orders
+JOIN OrderDetails ON Orders.OrderID = OrderDetails.OrderID
+JOIN Customers ON Orders.CustomerID = Customers.CustomerID
+JOIN Products ON Products.ProductID = OrderDetails.ProductID
+WHERE Customers.Country = "Germany"
+GROUP BY ProductName
+ORDER BY SUM(Quantity) DESC
+LIMIT 1;
